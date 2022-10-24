@@ -6,7 +6,8 @@ from awsglue.context import GlueContext
 from awsglue.dynamicframe import DynamicFrame
 from pyspark.sql import SQLContext
 from pyspark.sql.types import StructType,StructField, StringType, IntegerType
-
+import boto3
+import json
 
 # Glue Context
 sc=SparkContext.getOrCreate()
@@ -16,6 +17,17 @@ spark_session = glueContext.spark_session
 sqlContext = SQLContext(spark_session.sparkContext, spark_session)
 
 print ("starting job********************* \n")
+
+secrets_client = boto3.client('secretsmanager')
+secrets_response = secrets_client.get_secret_value(SecretId='secret-globant-challenge')
+secret = json.loads(secrets_response['SecretString'])
+host = secret['host']
+user = secret['username']
+passwd = secret['password']
+port = secret['port']
+engine = secret['engine']
+# driver = secret['driver']
+database = 'globant'
 
 departments_schema = StructType([ \
     StructField("id", IntegerType(), False), \
@@ -39,10 +51,10 @@ df_jobs = sqlContext.read.format('csv') \
 
 hired_employees_schema = StructType([ \
     StructField("id", IntegerType(), False), \
-    StructField("name", StringType(), False), \
-    StructField("datetime", StringType(), False), \
-    StructField("department_id", IntegerType(), False), \
-    StructField("job_id", IntegerType(), False) \
+    StructField("name", StringType(), True), \
+    StructField("datetime", StringType(), True), \
+    StructField("department_id", IntegerType(), True), \
+    StructField("job_id", IntegerType(), True) \
   ])
 
 df_hired_employees = sqlContext.read.format('csv') \
@@ -60,24 +72,24 @@ df_hired_employees.printSchema()
 
 
 print('----Start Saving')
-# Rules mysql Connection Options
+# # Rules mysql Connection Options
 mysql_options_jobs = {
-    "url": "jdbc:mysql://dbglobant.cifcchy9sefj.us-east-1.rds.amazonaws.com:3306/globant",
+    "url": f"jdbc:{engine}://{host}:{port}/{database}",
     "dbtable": "jobs",
-    "user": "",
-    "password": ""
+    "user": user,
+    "password": passwd
     }
 mysql_options_departments = {
-    "url": "jdbc:mysql://dbglobant.cifcchy9sefj.us-east-1.rds.amazonaws.com:3306/globant",
+    "url": f"jdbc:{engine}://{host}:{port}/{database}",
     "dbtable": "departments",
-    "user": "",
-    "password": ""
+    "user": user,
+    "password": passwd
     }
 mysql_options_hired_employees = {
-    "url": "jdbc:mysql://dbglobant.cifcchy9sefj.us-east-1.rds.amazonaws.com:3306/globant",
+    "url": f"jdbc:{engine}://{host}:{port}/{database}",
     "dbtable": "hired_employees",
-    "user": "",
-    "password": ""
+    "user": user,
+    "password": passwd
     }
 
 result_df_jobs_dyf = DynamicFrame.fromDF(df_jobs, glueContext, "result_dyf")
