@@ -5,7 +5,7 @@ SELECT
   department,
   hired
 FROM
-  (SELECT b_h.*, 139 as mean
+  (SELECT b_h.*, avg(hired) over() mean
   FROM
     (SELECT d.id, d.department, count(e.id) hired
     FROM  hired_employees e
@@ -13,4 +13,5 @@ FROM
     WHERE year(datetime) = "2021"
     GROUP BY department) b_h
   ) b_m
-WHERE hired > mean
+WHERE hired > mean  
+ORDER BY hired desc
