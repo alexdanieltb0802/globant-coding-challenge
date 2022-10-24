@@ -14,7 +14,7 @@ glueContext = GlueContext(sc)
 spark_session = glueContext.spark_session
 sqlContext = SQLContext(spark_session.sparkContext, spark_session)
 
-def write_df_toS3(spark_df,prefix,s3_dest_bucket,output_table):
+def write_df_toS3(spark_df,s3_dest_bucket,output_table):
     ###################################
     # Saving table in S3 (Parquet, compression default, partitions by ANNO ADUANA)
     ###################################
@@ -85,6 +85,8 @@ spark_df_hired_employees = sqlContext.read.format("jdbc") \
 print ("\nRows get from Query: {0} \n".format(spark_df_hired_employees.count()))
 spark_df_hired_employees.printSchema()
 
-
+write_df_toS3(spark_df_departments,s3_dest_bucket,table_name_departments)
+write_df_toS3(spark_df_jobs,s3_dest_bucket,table_name_jobs)
+write_df_toS3(spark_df_hired_employees,s3_dest_bucket,table_name_hired_employees)
 
 print ("OK********************* \n")
