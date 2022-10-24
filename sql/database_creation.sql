@@ -14,10 +14,10 @@ CREATE TABLE jobs (
 
 CREATE TABLE hired_employees (
     id INT PRIMARY KEY NOT NULL, 
-    name varchar(45) NOT NULL,
-    datetime varchar(45) NOT NULL,
-    department_id INT NOT NULL,
-    job_id INT NOT NULL,
+    name varchar(45) NULL,
+    datetime varchar(45) NULL,
+    department_id INT NULL,
+    job_id INT NULL,
     FOREIGN KEY (department_id) REFERENCES departments(id),
     FOREIGN KEY (job_id) REFERENCES jobs(id)
 );
