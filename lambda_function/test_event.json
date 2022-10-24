@@ -1,0 +1,38 @@
+{
+    "departments": [
+      {
+        "id": 15,
+        "department": "testdepartment2"
+      },
+      {
+        "id": 16,
+        "department": "testdepartment3"
+      }
+    ],
+    "jobs": [
+      {
+        "id": 190,
+        "job": "testjob"
+      },
+      {
+        "id": 191,
+        "job": "testjob1"
+      }
+    ],
+    "hired_employees": [
+      {
+        "id": 2005,
+        "name": "name_test",
+        "datetime": "2022-01-30T11:38:20Z",
+        "department_id": 15,
+        "job_id": 190
+      },
+      {
+        "id": 2006,
+        "name": "name_test1",
+        "datetime": "2019-01-30T11:38:20Z",
+        "department_id": 16,
+        "job_id": 191
+      }
+    ]
+  }
