@@ -18,3 +18,8 @@ The main structure is as follows:
 4. res: Folder for all static resources in the project. For example, dashboards, images, etc.
   - Quicksight graphic for challenge 2 - requirement 1
   - Quicksight graphic for challenge 2 - requirement 2
+  - Aws Arquitecture
+
+5. AWS arquitecture of the challenge
+
+![Alt Text](res\aws_architecture.jpeg)
