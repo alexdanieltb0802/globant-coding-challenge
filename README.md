@@ -22,4 +22,4 @@ The main structure is as follows:
 
 5. AWS arquitecture of the challenge
 
-![Alt Text](res\aws_architecture.jpeg)
+![Alt Text](res\aws_architecture.jpeg?raw=true "AWS arquitecture")
